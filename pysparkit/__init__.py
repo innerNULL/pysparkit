@@ -4,15 +4,30 @@
 
 
 import os
+import logging
 import pyspark.sql 
 from typing import Dict, List
+
+
+def get_logger(name: str, 
+        level: int=logging.INFO, 
+        log_format: str="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+) -> logging.Logger:
+    formatter: logging.Formatter
+    logger: logging.Logger
+
+    formatter = logging.Formatter(log_format)
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    return logger
 
 
 def get_common_spark_session(
         job_name: str, spec_conf: Dict = {
             "hive.metastore.client.socket.timeout": 360, 
             "spark.ui.showConsoleProgress": "true", 
-        }, py_files: List[str] = []) -> pyspark.sql.SparkSession:
+        }, py_files: List[str] = []
+) -> pyspark.sql.SparkSession:
     spark_conf = pyspark.sql.SparkSession.builder.appName(job_name)
     for k, v in spec_conf.items():
         spark_conf.config(k, v)

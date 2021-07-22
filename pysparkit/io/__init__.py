@@ -4,11 +4,25 @@
 
 
 import os
+import _io
 import json
+import logging
 import pyspark
 import pyspark.sql
 from typing import Any, Union, Dict, List, Tuple
+from ... import pysparkit
 
+
+LOGGER: logging.Logger = pysparkit.get_logger(__name__, level=logging.INFO)
+
+
+def json_file2dict(json_path: str) -> Dict:
+    """ Loads a json file as python `Dict` instance. """
+    output: Dict
+    json_file: _io.TextIOWrapper = open(json_path)
+    output = json.load(json_file)
+    json_file.close()
+    return output
 
 
 def get_fs_proto(path: str) -> str:
@@ -59,12 +73,12 @@ def hadoop_reset_directory(
     clean_bak_cmd: str = "hadoop fs -rm -r %s" % backup_dir
     backup_cmd: str = "hadoop fs -mv %s %s" % (directory, backup_dir)
     clean_cmd: str = "hadoop fs -rm -r %s" % directory
-    build_cmd: str = "hadoop fs -mkdir %s" % os.path.dirname(directory)
+    build_cmd: str = "hadoop fs -mkdir -p %s" % os.path.dirname(directory)
 
-    print(os.popen(clean_bak_cmd).read())
-    print(os.popen(backup_cmd).read())
-    print(os.popen(clean_cmd).read())
-    print(os.popen(build_cmd).read())
+    LOGGER.info(os.popen(clean_bak_cmd).read())
+    LOGGER.info(os.popen(backup_cmd).read())
+    LOGGER.info(os.popen(clean_cmd).read())
+    LOGGER.info(os.popen(build_cmd).read())
 
 
 def before_data2disk(target_directory: str, 
