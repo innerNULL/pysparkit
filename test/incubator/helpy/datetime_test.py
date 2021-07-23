@@ -28,6 +28,7 @@ class Test4get_now(unittest.TestCase):
 
         self.assertTrue(target_date == output_date, 
                 msg=self.msg_temp.format(target_date, output_date))
+        print("passed Test4get_now.test_get_now")
 
     def test_get_now_str(self):
         now = datetime.now()
@@ -39,6 +40,7 @@ class Test4get_now(unittest.TestCase):
 
         self.assertTrue(target_date == output_date, 
                 msg=self.msg_temp.format(target_date, output_date))
+        print("passed Test4get_now.test_get_now_str")
 
 
 class Test4str2datetime(unittest.TestCase):
@@ -52,6 +54,7 @@ class Test4str2datetime(unittest.TestCase):
         output: datetime = hpy.dt.str2datetime(dt_str, "%Y-%m-%d")
         self.assertTrue(target == output,
                 msg=self.msg_temp.format(target, output))
+        print("passed Test4str2datetime.test_case0")
 
 
 class Test4offset_datetime_str(unittest.TestCase):
@@ -59,7 +62,7 @@ class Test4offset_datetime_str(unittest.TestCase):
     def setUpClass(self):  
         self.msg_temp = "\n\tTarget: {0} \n\tOutput: {1}"
 
-    def test_case1(self):
+    def test_case0(self):
         dt: str = "2010-09-01"
         dt_format: str = "%Y-%m-%d"
         output: str = hpy.dt.offset_datetime_str(dt, dt_format, 
@@ -79,6 +82,7 @@ class Test4offset_datetime_str(unittest.TestCase):
         target: str = "2009-09-01"
         self.assertTrue(target == output,
                 msg=self.msg_temp.format(target, output))
+        print("passed Test4offset_datetime_str.test_case0")
 
 
 def main() -> None:

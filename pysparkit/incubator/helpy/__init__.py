@@ -5,12 +5,16 @@
 
 try:
     from . import datetime
-    from . import path
+    from . import path 
+    from . import iterator
 except:
     from helpy import datetime
-    from helpu import path
+    from helpy import path
+    from helpy import iterator
 
 
 dt = datetime
 datetime = datetime
 path = path
+iter = iterator
+iterator = iterator

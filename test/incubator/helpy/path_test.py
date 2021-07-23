@@ -25,6 +25,7 @@ class Test4extend_path_by_date(unittest.TestCase):
         target: str = "./2010/09/01"
         output: str = hpy.path.extend_path_by_date(path, date)
         self.assertTrue(target == output, msg=self.msg_temp.format(target, output))
+        print("passed Test4extend_path_by_date.test_case0")
 
 
 def main() -> None:
