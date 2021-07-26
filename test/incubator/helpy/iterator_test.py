@@ -43,7 +43,7 @@ class Test4list_insight(unittest.TestCase):
     def test_list_insight2item_weight_case0(self):
         input_list: List = [1,2,3,2,2,5,1,2,5]
         list_insight_info: Dict = hpy.iter.list_insight(input_list)
-        target: Dict = {1: 2/9, 2: 4/9, 3: 1/9, 5: 2/9}
+        target: Dict = {1: round(2/9, 2), 2: round(4/9, 2), 3: round(1/9, 2), 5: round(2/9, 2)}
         output: Dict = hpy.iter.list_insight2item_weight(list_insight_info)
         self.assertTrue(target == output,
                 msg=self.msg_temp.format(target, output))

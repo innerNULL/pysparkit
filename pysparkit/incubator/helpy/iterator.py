@@ -9,7 +9,7 @@ from multipledispatch import dispatch
 
 def list_insight(
         input_list: List[Union[int, float, str, bool]], 
-        cal_range: str=":"  
+        cal_range: str=":" 
 ) -> Dict[ Any, Union[ int, List, Dict[str, int] ] ]:
     insight_info: Dict[ Any, Union[ int, List, Dict[str, int] ] ]
     insight_info = {"num": 0, "type_num": 0, "val": [], "dist": {}}
@@ -28,7 +28,8 @@ def list_insight(
 
 
 def list_insight2item_weight(
-        list_insight: Dict[ Any, Union[ int, List, Dict[str, int] ] ]
+        list_insight: Dict[ Any, Union[ int, List, Dict[str, int] ] ], 
+        decimal: int=2
 ) -> Dict[Any, float]:
     item_weight: Dict = {}
 
@@ -39,7 +40,7 @@ def list_insight2item_weight(
 
     norm: float = sum([x[1] for x in list_insight["dist"].items()]) 
     item_weight = dict(
-            [(k, v / norm) for k, v in list_insight["dist"].items()]
+            [(k, round(v / norm, decimal)) for k, v in list_insight["dist"].items()]
     )
     return item_weight
 
