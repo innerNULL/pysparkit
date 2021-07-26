@@ -50,3 +50,34 @@ class Test4list_insight(unittest.TestCase):
         print("passed Test4list_insight.test_list_insight2item_weight_case0") 
 
 
+
+class Test4dict_merge_series(unittest.TestCase):
+    @classmethod
+    def setUpClass(self):
+        self.msg_temp = "\n\tTarget: {0} \n\tOutput: {1}"
+
+    def test_merge_dict_case0(self):
+        input_0: Dict = {}
+        input_1: Dict = {}
+        output: Dict = hpy.iter.merge_dict(input_0, input_1, False)
+        target: Dict = {}
+        self.assertTrue(target == output,
+                msg=self.msg_temp.format(target, output))
+
+        print("Test4dict_merge_series.merge_dict_case1")   
+
+    def test_merge_dict_case1(self):
+        input_0: Dict = {"a": 1, "b": [2], "d": [0, 1]}
+        input_1: Dict = {"a": [2,3], "b": [1], "c": "c", "d": 2}
+        output: Dict = hpy.iter.merge_dict(input_0, input_1, False)
+        target: Dict = {"a": [1, 2, 3], "b": [2, 1], "c": "c", "d": [0, 1, 2]}
+
+        self.assertTrue(target == output,
+                msg=self.msg_temp.format(target, output))
+
+        output: Dict = hpy.iter.merge_dict(input_0, input_1, True)
+        target: Dict = {"a": [2,3], "b": [1], "c": "c", "d": 2} 
+        self.assertTrue(target == output,
+                msg=self.msg_temp.format(target, output))
+
+        print("Test4dict_merge_series.merge_dict_case1") 
