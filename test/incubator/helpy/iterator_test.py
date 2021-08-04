@@ -81,3 +81,41 @@ class Test4dict_merge_series(unittest.TestCase):
                 msg=self.msg_temp.format(target, output))
 
         print("Test4dict_merge_series.merge_dict_case1") 
+
+
+class Test4dict_inplace_func(unittest.TestCase):
+    @classmethod
+    def setUpClass(self):
+        self.msg_temp = "\n\tTarget: {0} \n\tOutput: {1}"
+
+    def test_dict_inplace_func_case0(self):
+        input_dict: Dict = {"a": 1, "b": 2, "c": 3}
+        func_0 = lambda x: x + 1
+        func_1 = lambda x, y: y - x
+        func_2 = lambda x: x
+
+        func_args_0 = {"x": "a"}
+        func_args_1 = {"x": "a", "y": "b"}
+        func_args_2 = {"x": "c"}
+
+        output_0 = hpy.iter.dict_inplace_func(input_dict, func_0, func_args_0, {}, "a")
+        target_0 = {"a": 2, "b": 2, "c": 3}
+        self.assertTrue(target_0 == output_0,
+                msg=self.msg_temp.format(target_0, output_0))
+
+        output_1 = hpy.iter.dict_inplace_func(input_dict, func_1, func_args_1, {}, "b")
+        target_1 = {"a": 1, "b": 1, "c": 3}
+        self.assertTrue(target_1 == output_1,
+                msg=self.msg_temp.format(target_1, output_1))
+
+        output_2 = hpy.iter.dict_inplace_func(input_dict, func_2, func_args_2, {}, "d")
+        target_2 = {"a": 1, "b": 2, "c": 3, "d": 3}
+        self.assertTrue(target_2 == output_2,
+                msg=self.msg_temp.format(target_2, output_2))
+       
+        print("Test4dict_inplace_func.test_dict_inplace_func_case0") 
+
+
+
+
+

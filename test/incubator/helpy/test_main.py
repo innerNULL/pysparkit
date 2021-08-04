@@ -17,6 +17,9 @@ Test4extend_path_by_date = path_test.Test4extend_path_by_date
 
 Test4list_insight = iterator_test.Test4list_insight
 Test4dict_merge_series = iterator_test.Test4dict_merge_series
+Test4dict_inplace_func = iterator_test.Test4dict_inplace_func
+
+
 
 
 if __name__ == "__main__":

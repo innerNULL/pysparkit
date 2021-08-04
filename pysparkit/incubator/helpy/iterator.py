@@ -3,6 +3,7 @@
 # date: 2020-07-23
 
 
+import types
 from typing import Any, Union, List, Dict, Tuple
 from multipledispatch import dispatch
 
@@ -73,3 +74,32 @@ def merge_dict(target_0: Dict, target_1: Dict,
                 else:
                     target_0[k] = v
     return target_0
+
+
+def dict_inplace_func(original_dict: Dict, 
+        func: types.FunctionType, 
+        self_contained_args: Dict={}, extra_args: Dict={}, 
+        out_field: str=None 
+) -> Dict:
+    """ `Dict` instance inplace style function executor.
+    The function `func` will be executed with arguments 
+    in `func_args` which value could be found in `original_dict`, 
+    and the result will be contained in the output `Dict` 
+    instance's `out_field`, and output `Dict` instance will 
+    also contained all other fields in `original_dict`.
+    """
+    output_dict: Dict = dict(original_dict.items())
+
+    if out_field is None:
+        out_field = "dict_inplace_func_output_for_%s" % func.__name__
+    
+    func_args: Dict[str, Any] = {}
+    for arg_name, field in self_contained_args.items():
+        func_args[arg_name] = original_dict[field]
+    for arg_name, arg_val in extra_args.items():
+        func_args[arg_name] = arg_val
+    
+    func_out: Any = func(**func_args)
+    output_dict[out_field] = func_out
+
+    return output_dict
