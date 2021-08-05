@@ -171,3 +171,10 @@ def hadoop_waiting_util_path_ready(
                 if waiting_seconds_ % logging_period == 0:
                     LOGGER.info("Waiting for path '%s' ready..." % path)
 
+
+def json_line_files2py_dict_rdd(
+        sc: pyspark.sql.SparkSession, path: str
+) -> pyspark.RDD:
+    return sc.sparkContext.textFile(path)\
+            .map(lambda x: json.loads(x))
+
