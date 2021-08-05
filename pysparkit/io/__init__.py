@@ -7,9 +7,12 @@ import os
 import _io
 import json
 import logging
+import time
+import datetime
 import pyspark
 import pyspark.sql
 from typing import Any, Union, Dict, List, Tuple
+
 from ... import pysparkit
 
 
@@ -137,4 +140,34 @@ def py_dict_rdd2disk(py_dict_rdd: pyspark.RDD,
             .saveAsTextFile(target_directory)
 
 
+def hadoop_if_path_exists(path: str) -> bool:
+    if not if_fs_client_ok("hadoop"):
+        raise Exception("hadoop client is not OK")
+
+    hadoop_cmd: str = "hadoop fs -ls %s" % path
+    cmd_result: str = os.popen(hadoop_cmd).read()
+    
+    if "No such file or directory" in cmd_result:
+        return False
+    return True
+
+
+def hadoop_waiting_util_path_ready(
+        path: str, waiting_seconds: int=1, 
+        logging_period: int=30
+) -> None:
+    start_time: datetime.datetime = datetime.datetime.now() 
+    while True:
+        if hadoop_if_path_exists(path):
+            LOGGER.info("path '%s' has been ready." % path)
+            break
+        else:
+            now: datetime.datetime = datetime.datetime.now()
+            waiting_seconds_: datetime.timedelta = (now - start_time).seconds
+            if waiting_seconds_ > waiting_seconds:
+                LOGGER.info("Out of waiting time for path '%s'..." % path)
+                break
+            else:
+                if waiting_seconds_ % logging_period == 0:
+                    LOGGER.info("Waiting for path '%s' ready..." % path)
 
