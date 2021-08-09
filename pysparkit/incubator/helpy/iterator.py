@@ -78,7 +78,8 @@ def merge_dict(target_0: Dict, target_1: Dict,
 
 def dict_inplace_func(original_dict: Dict, 
         func: types.FunctionType, 
-        self_contained_args: Dict={}, extra_args: Dict={}, 
+        self_contained_args: Dict[str, Any]={}, 
+        extra_args: Dict[str, Any]={}, 
         out_field: str=None 
 ) -> Dict:
     """ `Dict` instance inplace style function executor.
@@ -103,3 +104,22 @@ def dict_inplace_func(original_dict: Dict,
     output_dict[out_field] = func_out
 
     return output_dict
+
+
+def dict_query(original_dict: Dict, 
+        target_fields: List[Any]=[], 
+        kept_or_filter: str="kept"
+) -> Dict:
+    output: Dict = {}
+    keeping_fields: List = []
+
+    if kept_or_filter == "kept":
+        keeping_fields = [x for x in target_fields if x in original_dict]
+    else:
+        keeping_fields = [
+            k for k, v in original_dict.items() if k not in target_fields
+        ]
+
+    for field in keeping_fields:
+        output[field] = original_dict[field] 
+    return output
