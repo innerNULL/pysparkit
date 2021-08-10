@@ -19,7 +19,16 @@ def py_dict_rdd_agg_fields_concat(
             .map(lambda x: (x[aggregate_key], x))\
             .foldByKey(
                 {}, 
-                lambda a, b: reduce_ops.py_dict_reduce_concat(a, b, concating_fields)
+                lambda a, b: reduce_ops.py_dict_reduce_concat(
+                    a, b, concating_fields
+                )
              )\
             .map(lambda x: map_ops.pair2dict(x, aggregate_key))
     return output_rdd
+
+
+#TODO@202108091423
+def py_dict_rdd_distinct_by_field(
+        py_dict_rdd: pyspark.RDD, distincting_keys: List
+) -> pyspark.RDD:
+    return None
