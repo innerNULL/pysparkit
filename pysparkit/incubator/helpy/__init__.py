@@ -7,10 +7,12 @@ try:
     from . import datetime
     from . import path 
     from . import iterator
+    from . import types
 except:
     from helpy import datetime
     from helpy import path
     from helpy import iterator
+    from helpy import types
 
 
 dt = datetime
@@ -18,3 +20,4 @@ datetime = datetime
 path = path
 iter = iterator
 iterator = iterator
+types = types

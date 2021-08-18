@@ -6,6 +6,7 @@
 import sys
 sys.path.append("./")    
 sys.path.append("../")
+sys.path.append("./pysparkit/incubator")
 sys.path.append("./pysparkit/lambda_ops")
 
 import unittest
@@ -55,6 +56,29 @@ class Test4py_dict_reduce_concat(unittest.TestCase):
         target = {"a": [2], "b": ["bb"], "c": []}
         output = reduce_ops.py_dict_reduce_concat(record, record_next, target_fields)
         self.assertTrue(target == output, msg=self.msg_temp.format(target, output))
+
+
+class Test4py_dict_reduce_max_min(unittest.TestCase):
+    @classmethod
+    def setUpClass(self):
+        self.msg_temp = "\n\tTarget: {0} \n\tOutput: {1}"
+        pass
+
+    def test_case0(self):
+        record_1: Dict = {"a": 1, "b": "2", "c": 3.14}
+        record_2: Dict = {"a": 2, "b": "3", "c": 10.1}
+        output: Dict = reduce_ops.py_dict_reduce_max_min(record_1, record_2)
+        target: Dict = {"a": {"min": 1, "max": 2}, "c": {"min": 3.14, "max": 10.1}, 
+                "pysparkit_flag": "py_dict_reduce_max_min"}
+        self.assertTrue(target == output, msg=self.msg_temp.format(target, output)) 
+
+        record_3: Dict = output
+        record_4: Dict = {"a": 3, "b": None, "c": None}
+        output: Dict = reduce_ops.py_dict_reduce_max_min(record_3, record_4)
+        target: Dict = {'pysparkit_flag': 'py_dict_reduce_max_min', 
+                'a': {'max': 3, 'min': 1}, 'c': {'max': 10.1, 'min': 3.14}}
+        self.assertTrue(target == output, msg=self.msg_temp.format(target, output))
+
 
 
 if __name__ == "__main__":
