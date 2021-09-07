@@ -4,6 +4,9 @@
 
 
 import os
+import sys
+sys.path.append(os.path.dirname(__file__) + os.sep + '../')
+
 from typing import Dict, List
 from datetime import datetime
 from multipledispatch import dispatch

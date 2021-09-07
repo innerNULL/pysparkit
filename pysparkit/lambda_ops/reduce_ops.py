@@ -62,3 +62,17 @@ def py_dict_reduce_max_min(record: Dict, record_next: Dict,
             output[k]["max"] = max(v, record.get(k, v))
             output[k]["min"] = min(v, record.get(k, v))
     return output
+
+
+def py_dict_reduce_dist(record: Dict, record_next: Dict, 
+        str_list2list: Dict[ Union[str, float, int], types.FunctionType] = {}, 
+        target_fields: List[ Union[int, float, str] ] = None
+) -> Dict[ Union[int, float, str], Dict[ str, Union[int, float]] ]:
+    output: Dict[ Union[int, float, str], Dict[ str, Union[int, float]] ] = {}
+    for k, c in record_next.items(): 
+        if target_fields is not None:
+            if k not in target_fields:
+                continue
+        if hpy.types.obj2basic_type_str(v).split("#")[0] == "":
+            continue
+
