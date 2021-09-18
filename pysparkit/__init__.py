@@ -40,10 +40,13 @@ def get_common_spark_session(
     return spark_session
 
 
-def python_version_config(version: str="python3") -> None:
-    if "python3" in version:
-        os.environ["PYSPARK_PYTHON"]="/usr/bin/python3"
-        os.environ["PYSPARK_DRIVER_PYTHON"]="/usr/bin/python3"
+def python_version_config(
+        worker_py: str, driver_py: str=None
+) -> None:
+    if driver_py is None:
+        driver_py = worker_py
+    os.environ["PYSPARK_PYTHON"]=worker_py
+    os.environ["PYSPARK_DRIVER_PYTHON"]=driver_py
 
 
 def get_pysparkit_root() -> str:
